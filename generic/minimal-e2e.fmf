@@ -1,0 +1,23 @@
+summary: run basic keylime attestation scenario
+context:
+    swtpm: yes
+    agent: rust
+
+execute:
+    how: tmt
+
+discover:
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/keylime-tests
+    ref: "@.tmt/dynamic_ref.fmf"
+    test:
+      - /setup/configure_tpm_emulator
+      - /setup/inject_SELinux_AVC_check
+      - /setup/configure_kernel_ima_module/ima_policy_simple
+      - /functional/basic-attestation-on-localhost
+
+adjust:
+  - when: distro == fedora-rawhide
+    environment:
+        AVC_CHECK_AUSEARCH_PARAMS: "-se keylime"
+    because: "On Rawhide we ignore SELinux AVCs not related to keylime"

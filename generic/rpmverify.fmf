@@ -1,0 +1,17 @@
+summary: rpmverify test
+
+context:
+    swtpm: yes
+    agent: rust
+
+execute:
+    how: tmt
+
+discover:
+
+  - name: test
+    how: shell
+    tests:
+      - name: rpmverify
+        test: 'rpmverify $(rpm -qa | grep keylime)'
+        duration: 2m

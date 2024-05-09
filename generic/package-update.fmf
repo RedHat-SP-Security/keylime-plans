@@ -1,0 +1,48 @@
+summary: package update scenario
+
+context:
+    swtpm: yes
+    agent: rust
+
+execute:
+    how: tmt
+
+
+    prepare:
+      - how: shell
+        order: 90
+        script:
+          # remove installed (tested) keylime and any leftovers
+          - dnf -y remove '*keylime*'
+          - rm -rf /var/lib/keylime /etc/keylime
+          # install older keylime
+          - dnf -y install keylime --disablerepo test-artifacts
+
+discover:
+
+  - name: Update_scenario_setup
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/keylime-tests
+    ref: "@.tmt/dynamic_ref.fmf"
+    test:
+      - /setup/configure_tpm_emulator
+      - /setup/inject_SELinux_AVC_check
+      - /setup/enable_keylime_debug_messages
+      - /setup/configure_kernel_ima_module/ima_policy_signing
+      # do the actual keylime test setup
+      - /update/basic-attestation-on-localhost/setup
+
+  - name: Update_keylime_package
+    how: shell
+    tests:
+      - name: keylime_update
+        test: dnf -y update '*keylime*'
+        duration: 2m
+
+  - name: Test_scenario_post-update
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/keylime-tests
+    ref: "@.tmt/dynamic_ref.fmf"
+    test:
+      # run the post-update test scenario
+      - /update/basic-attestation-on-localhost/test
