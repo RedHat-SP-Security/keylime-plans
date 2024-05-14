@@ -1,3 +1,7 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/rpms/keylime/-/tree/c10s
+# https://gitlab.com/redhat/centos-stream/rpms/keylime-agent-rust/-/tree/c10s
+
 summary: package update scenario
 
 context:

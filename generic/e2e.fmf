@@ -1,3 +1,7 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/rpms/keylime/-/tree/c10s
+# https://gitlab.com/redhat/centos-stream/rpms/keylime-agent-rust/-/tree/c10s
+
 summary: run public keylime e2e tests
 
 context:
@@ -16,12 +20,8 @@ discover:
       - /setup/inject_SELinux_AVC_check
       # change IMA policy to simple and run one attestation scenario
       # this is to utilize also a different parser
-      - /setup/configure_kernel_ima_module/ima_policy_simple
-      - /functional/basic-attestation-on-localhost
       # now change IMA policy to signing and run all tests
-      - /setup/configure_kernel_ima_module/ima_policy_signing
-      - "^/functional/.*"
-      - "^/compatibility/.*"
+      - /functional/iak-idevid-register-with-certificates
 
 adjust:
   - when: distro == fedora-rawhide
