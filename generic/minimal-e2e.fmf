@@ -21,3 +21,6 @@ adjust:
     environment:
         AVC_CHECK_AUSEARCH_PARAMS: "-se keylime"
     because: "On Rawhide we ignore SELinux AVCs not related to keylime"
+  - when: arch == ppc64le
+    enabled: false
+    because: swtpm is not available on ppc64le
