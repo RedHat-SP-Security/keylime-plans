@@ -27,7 +27,7 @@ discover:
 execute:
   how: tmt
 
-adjust:
+adjust+:
   - when: distro == fedora-rawhide
     environment:
         AVC_CHECK_AUSEARCH_PARAMS: "-se keylime"
