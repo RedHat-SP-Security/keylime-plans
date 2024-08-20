@@ -1,0 +1,30 @@
+summary: run public keylime e2e tests
+
+context:
+    swtpm: yes
+    agent: rust
+
+execute:
+    how: tmt
+
+discover:
+    how: fmf
+    url: https://github.com/ansasaki/keylime-tests.git
+    ref: backport_webhook_tls
+    test:
+      - /setup/configure_tpm_emulator
+      - /setup/inject_SELinux_AVC_check
+      # change IMA policy to simple and run one attestation scenario
+      # this is to utilize also a different parser
+      - /setup/configure_kernel_ima_module/ima_policy_simple
+      - /functional/basic-attestation-on-localhost
+      # now change IMA policy to signing and run all tests
+      - /setup/configure_kernel_ima_module/ima_policy_signing
+      - "^/functional/.*"
+      - "^/compatibility/.*"
+
+adjust+:
+  - when: distro == fedora-rawhide
+    environment:
+        AVC_CHECK_AUSEARCH_PARAMS: "-se keylime"
+    because: "On Rawhide we ignore SELinux AVCs not related to keylime"
