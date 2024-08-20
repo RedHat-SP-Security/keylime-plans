@@ -1,0 +1,4 @@
+adjust:
+  - when: newa_batch is defined
+    report:
+      how: reportportal
