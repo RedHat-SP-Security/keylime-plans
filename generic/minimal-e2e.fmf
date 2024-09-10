@@ -11,6 +11,7 @@ discover:
     url: https://github.com/RedHat-SP-Security/keylime-tests
     ref: "@.tmt/dynamic_ref.fmf"
     test:
+      - /setup/apply_workarounds
       - /setup/configure_tpm_emulator
       - /setup/inject_SELinux_AVC_check
       - /setup/configure_kernel_ima_module/ima_policy_simple

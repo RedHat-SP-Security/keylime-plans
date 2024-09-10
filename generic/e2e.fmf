@@ -1,6 +1,7 @@
 # used in
 # https://gitlab.com/redhat/centos-stream/rpms/keylime/-/tree/c10s
 # https://gitlab.com/redhat/centos-stream/rpms/keylime-agent-rust/-/tree/c10s
+# https://src.fedoraproject.org/rpms/keylime/blob/rawhide/f/e2e_tests.fmf
 
 summary: run public keylime e2e tests
 
@@ -16,6 +17,7 @@ discover:
     url: https://github.com/RedHat-SP-Security/keylime-tests
     ref: "@.tmt/dynamic_ref.fmf"
     test:
+      - /setup/apply_workarounds
       - /setup/configure_tpm_emulator
       - /setup/inject_SELinux_AVC_check
       # change IMA policy to simple and run one attestation scenario
