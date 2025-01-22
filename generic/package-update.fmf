@@ -50,3 +50,4 @@ discover:
     test:
       # run the post-update test scenario
       - /update/basic-attestation-on-localhost/test
+      - /update/basic-attestation-on-localhost/cleanup
