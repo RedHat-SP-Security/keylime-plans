@@ -5,7 +5,7 @@
 
 summary: run public keylime e2e tests
 
-context:
+context+:
     swtpm: yes
     agent: rust
 

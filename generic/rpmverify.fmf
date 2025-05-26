@@ -4,7 +4,7 @@
 
 summary: rpmverify test
 
-context:
+context+:
     swtpm: yes
     agent: rust
 

@@ -1,6 +1,6 @@
 summary: run keylime TPM related e2e tests
 
-context:
+context+:
   swtpm: yes
   agent: rust
 

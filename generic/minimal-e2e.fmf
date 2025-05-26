@@ -1,5 +1,5 @@
 summary: run basic keylime attestation scenario
-context:
+context+:
     swtpm: yes
     agent: rust
 
