@@ -1,0 +1,44 @@
+# used in
+# https://gitlab.com/redhat/centos-stream/rpms/keylime/-/tree/c10s
+# https://gitlab.com/redhat/centos-stream/rpms/keylime-agent-rust/-/tree/c10s
+# https://src.fedoraproject.org/rpms/keylime/blob/rawhide/f/e2e_tests.fmf
+
+summary: run public keylime e2e tests
+
+context+:
+    swtpm: yes
+    agent: rust
+
+execute:
+    how: tmt
+
+discover:
+    how: fmf
+    url: https://github.com/RedHat-SP-Security/keylime-tests
+    ref: "@.tmt/dynamic_ref.fmf"
+    test:
+      - /setup/apply_workarounds
+      - /setup/configure_tpm_emulator
+      - /setup/inject_SELinux_AVC_check
+      # change IMA policy to simple and run one attestation scenario
+      # this is to utilize also a different parser
+      - /setup/configure_kernel_ima_module/ima_policy_simple
+      - /functional/basic-attestation-on-localhost
+      # now change IMA policy to signing and run all tests
+      - /setup/configure_kernel_ima_module/ima_policy_signing
+      - "^/functional/.*"
+      - "^/compatibility/.*"
+
+adjust+:
+  - when: true
+    discover+:
+       ref: "@.tmt/dynamic_ref.fmf"
+
+  - when: distro == rhel-9.7.0 and trigger == build
+    discover+:
+       ref: "rhel-10-main"
+
+  - when: distro == fedora-rawhide
+    environment:
+        AVC_CHECK_AUSEARCH_PARAMS: "-se keylime"
+    because: "On Rawhide we ignore SELinux AVCs not related to keylime"
