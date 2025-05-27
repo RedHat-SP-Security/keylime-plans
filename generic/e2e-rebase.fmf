@@ -36,7 +36,7 @@ adjust+:
 
   - when: distro == rhel-9.7.0 and trigger == build
     discover+:
-       ref: "rhel-10-main"
+       ref: "ks_rhel-9-main_new"
 
   - when: distro == fedora-rawhide
     environment:
