@@ -17,7 +17,7 @@ discover:
     url: https://github.com/RedHat-SP-Security/keylime-tests
     ref: "@.tmt/dynamic_ref.fmf"
     test:
-      - /setup/apply_workarounds
+      #- /setup/apply_workarounds
       - /setup/configure_swtpm_device
       - /setup/inject_SELinux_AVC_check
       # change IMA policy to simple and run one attestation scenario
